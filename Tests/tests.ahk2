@@ -1,0 +1,7 @@
+Assert(expression, context := '') {
+    if (expression) {
+        return
+    }
+
+    throw Error("Failed assertion", -2, context)
+}
