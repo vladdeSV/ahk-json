@@ -5,3 +5,30 @@ Assert(expression, context := '') {
 
     throw Error("Failed assertion", -2, context)
 }
+
+AssertEquals(a, b, context := '') {
+    try {
+        Assert(Type(a) == Type(b))
+
+        t := Type(a)
+
+        switch (t) {
+            case 'Integer':
+            case 'String':
+                Assert(a == b)
+                return
+            case 'Map':
+                Assert(a.count == b.count)
+
+                for (key, value in a) {
+                    Assert(b.Has(key))
+                    Assert(b.Get(key) == value)
+                }
+                return
+            default:
+                throw Error('AssertEquals for type `'' . t . '`' not yet supported')
+        }
+    } catch Error as e {
+        throw Error(e.Message, -2, e.Extra)
+    }
+}
