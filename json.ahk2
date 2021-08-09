@@ -21,4 +21,16 @@ class JSON
     static Stringify(variable) {
         return ''
     }
+
+    /**
+     * Custom null implementation
+     *
+     * @returns Object Read-only static variable
+     */
+    static Null {
+        get {
+            static null := {}
+            return null
+        }
+    }
 }
