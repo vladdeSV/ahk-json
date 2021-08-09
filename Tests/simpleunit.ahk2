@@ -17,18 +17,18 @@ AssertEquals(a, b, context := '') {
             case 'String':
             case 'Float':
                 Assert(a == b)
+                
                 return
             case 'Map':
                 Assert(a.count == b.count)
-
                 for (key, value in a) {
                     Assert(b.Has(key))
                     Assert(b.Get(key) == value)
                 }
+
                 return
             case 'Array':
                 Assert(a.length == b.length)
-
                 for (index, value in a) {
                     AssertEquals(b[index], value)
                 }
