@@ -25,6 +25,14 @@ AssertEquals(a, b, context := '') {
                     Assert(b.Get(key) == value)
                 }
                 return
+            case 'Array':
+                Assert(a.length == b.length)
+
+                for (index, value in a) {
+                    Assert(b[index] == value)
+                }
+
+                return
             default:
                 throw Error('AssertEquals for type `'' . t . '`' not yet supported')
         }
