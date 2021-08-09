@@ -15,6 +15,7 @@ AssertEquals(a, b, context := '') {
         switch (t) {
             case 'Integer':
             case 'String':
+            case 'Float':
                 Assert(a == b)
                 return
             case 'Map':
@@ -29,7 +30,7 @@ AssertEquals(a, b, context := '') {
                 Assert(a.length == b.length)
 
                 for (index, value in a) {
-                    Assert(b[index] == value)
+                    AssertEquals(b[index], value)
                 }
 
                 return
