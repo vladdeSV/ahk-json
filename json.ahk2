@@ -1,13 +1,12 @@
 #Requires AutoHotkey v2.0-a134
 
-class JSON
-{
+class JSON {
     /**
-     * @param string filePath
+     * @param string data JSON data
      * 
      * @return Map|Array
      */
-    static Parse(filePath) {
+    static Parse(data) {
         json := Map()
 
         return json
