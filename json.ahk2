@@ -42,8 +42,136 @@ class LexerData {
 }
 
 /**
+ * @see https://notes.eatonphil.com/writing-a-simple-json-parser.html
  * @return Array JSON tokens
  */
 Lexer(data) {
-    return []
+    ; placeholder value when lexing part does not match
+    static None := {}
+
+    LexString(str) {
+        jsonString := ''
+    
+        if (SubStr(str, 1, 1) != '"') {
+            return LexerData(None, str)
+        }
+        ; we are now inside a string. continue until we hit a " that is not escaped
+    
+        ; remove first character (the quote)
+        str := SubStr(str, 2)
+        isEscaped := false
+    
+        for (character in StrSplit(str)) {
+            if (character == '"' && !isEscaped) {
+                return LexerData('"' . jsonString . '"', SubStr(str, StrLen(jsonString) + 2))
+            }
+    
+            if (character == '\' && !isEscaped) {
+                isEscaped := true
+                continue
+            }
+    
+            isEscaped := false
+    
+            jsonString := jsonString . character
+        }
+    
+        throw Error('Expected end-of-string quote', -1)
+    }
+
+    LexBoolean(str) {
+        if (SubStr(str, 1, 4) == 'true') {
+            return LexerData('true', SubStr(str, 5))
+        }
+    
+        
+        if (SubStr(str, 1, 5) == 'false') {
+            return LexerData('false', SubStr(str, 6))
+        }
+    
+        return LexerData(None, str)
+    }
+
+    LexNull(str) {
+        if (SubStr(str, 1, 4) == 'null') {
+            return LexerData('null', SubStr(str, 5))
+        }
+
+        return LexerData(None, str)
+    }
+
+    LexNumber(str) {
+        jsonNumber := ''
+    
+        numbers := '0123456789-eE.'
+    
+        for (character in StrSplit(str)){
+            if (!InStr(numbers, character)) {
+                break
+            }
+    
+            jsonNumber := jsonNumber character
+        }
+    
+        rest := SubStr(str, StrLen(jsonNumber) + 1)
+    
+        if (StrLen(jsonNumber) == 0) {
+            return LexerData(None, str)
+        }
+    
+        return LexerData(jsonNumber, rest)
+    }
+    
+    tokens := []
+
+    while (StrLen(data)) {
+        ; is a string
+        jsonString := LexString(data)
+        if (jsonString.data != None) {
+            tokens.Push(jsonString.data)
+            data := jsonString.continuation
+            continue
+        }
+
+        ; is a boolean
+        jsonBoolean := LexBoolean(data)
+        if (jsonBoolean.data != None) {
+            tokens.Push(jsonBoolean.data)
+            data := jsonBoolean.continuation
+            continue
+        }
+
+        ; is null
+        jsonNull := LexNull(data)
+        if (jsonNull.data != None) {
+            tokens.Push(jsonNull.data)
+            data := jsonNull.continuation
+            continue
+        }
+
+        ; is number
+        jsonNumber := LexNumber(data)
+        if (jsonNumber.data != None) {
+            tokens.Push(jsonNumber.data)
+            data := jsonNumber.continuation
+            continue
+        }
+
+        ; is whitespace
+        if (InStr(' `t`n', SubStr(data, 1, 1))) {
+            data := SubStr(data, 2)
+            continue
+        }
+        
+        ; is json syntax characters
+        if (InStr('{}()[]:,', SubStr(data, 1, 1))) {
+            tokens.Push(SubStr(data, 1, 1))
+            data := SubStr(data, 2)
+            continue
+        }
+        
+        throw Error('Unexpected character: ' SubStr(data, 1, 1), -2)
+    }
+
+    return tokens
 }
