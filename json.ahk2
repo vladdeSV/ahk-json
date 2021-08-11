@@ -33,3 +33,10 @@ class JSON {
         }
     }
 }
+
+class LexerData {
+    __New(data, continuation) {
+        this.data := data
+        this.continuation := continuation
+    }
+}
