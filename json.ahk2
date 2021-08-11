@@ -40,3 +40,10 @@ class LexerData {
         this.continuation := continuation
     }
 }
+
+/**
+ * @return Array JSON tokens
+ */
+Lexer(data) {
+    return []
+}
