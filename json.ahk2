@@ -180,6 +180,102 @@ SubArr(arr, from, length := 0) {
     return ret
 }
 
+/**
+ * @return [Array, Array]
+ */
+ParseArray(tokens) {
+    json_array := []
+
+    token := tokens[1]
+    tokenKind := ParseTokenKind(token)
+
+    if (tokenKind == END_ARRAY) {
+        return [json_array, SubArr(tokens, 2)]
+    }
+
+    while (true) {
+        foo := Parse(tokens)
+        json_ := foo[1]
+        tokens := foo[2]
+
+        json_array.Push(json_)
+
+        token := tokens[1]
+        tokenKind := ParseTokenKind(token)
+
+        if (tokenKind == END_ARRAY) {
+            return [json_array, SubArr(tokens, 2)]
+        } else if (tokenKind !== COMMA) {
+            throw Error('Expected comma after value in array')
+        } else {
+            tokens := SubArr(tokens, 2)
+        }
+    }
+}
+
+/**
+ * @return [Map, Array]
+ */
+ParseObject(tokens) {
+    json_object := Map()
+
+    token := tokens[1]
+    tokenKind := ParseTokenKind(token)
+    
+    if (token == END_OBJECT) {
+        return [json_object, SubArr(tokens, 2)]
+    }
+
+    while (true) {
+        json_key := tokens[1]
+        tokenKind := ParseTokenKind(token)
+
+        if (tokenKind == STRING_) {
+            tokens := SubArr(tokens, 2)
+        } else {
+            throw Error('Expected string key, got ' tokenKind)
+        }
+
+        if (ParseTokenKind(tokens[0]) !== COLON) {
+            throw Error('Expected colon after key in object, got ' tokenKind)
+        }
+
+        foo := Parse(SubArr(tokens, 2))
+        json_value := foo[1]
+        tokens := foo[2]
+
+        json_object[json_key] := json_value
+
+        token := tokens[0]
+        tokenKind := ParseTokenKind(token)
+
+        if (tokenKind == END_OBJECT) {
+            return [json_object, SubArr(tokens, 2)]
+        } else if (tokenKind !== COMMA) {
+            throw Error()
+        }
+
+        tokens := SubArr(tokens, 2)
+    }
+}
+
+/**
+ * @return [Any, Array]
+ */
+Parse(tokens) {
+    token := tokens[1]
+    tokenKind := ParseTokenKind(token)
+
+    switch (tokenKind) {
+        case BEGIN_ARRAY:
+            return ParseArray(SubArr(tokens, 2))
+        case BEGIN_OBJECT:
+            return ParseObject(SubArr(tokens, 2))
+        default:
+            return [token, SubArr(tokens, 2)]
+    }
+}
+
 BEGIN_OBJECT := 'BEGIN_OBJECT'
 END_OBJECT := 'END_OBJECT'
 BEGIN_ARRAY := 'BEGIN_ARRAY'
