@@ -179,3 +179,49 @@ SubArr(arr, from, length := 0) {
     
     return ret
 }
+
+BEGIN_OBJECT := 'BEGIN_OBJECT'
+END_OBJECT := 'END_OBJECT'
+BEGIN_ARRAY := 'BEGIN_ARRAY'
+END_ARRAY := 'END_ARRAY'
+COLON := 'COLON'
+COMMA := 'COMMA'
+STRING_ := 'STRING'
+NUMBER_ := 'NUMBER'
+NULL := 'NULL'
+BOOLEAN := 'BOOLEAN'
+
+/**
+ * @return string
+ */
+ParseTokenKind(token) {
+    switch token {
+        case '{':
+            return BEGIN_OBJECT
+        case '}':
+            return END_OBJECT
+        case '[':
+            return BEGIN_ARRAY
+        case ']':
+            return END_ARRAY
+        case ':':
+            return COLON
+        case ',':
+            return COMMA
+        case 'null':
+            return NULL
+        case 'true':
+        case 'false':
+            return BOOLEAN
+        default:
+            if (RegExMatch(token, '".*"')) {
+                return STRING_
+            }
+            
+            if (RegExMatch(token, '-?\d+(\.\d+)?([+-]?e\d+)?')) {
+                return NUMBER_
+            }
+
+            throw Error('Unknown token `'' token '`'')
+    }
+}
