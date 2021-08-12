@@ -208,6 +208,10 @@ ParseArray(tokens) {
         json_ := foo[1]
         tokens := foo[2]
 
+        if (tokens.length == 0) {
+            break
+        }
+
         json_array.Push(json_)
 
         token := tokens[1]
@@ -221,6 +225,8 @@ ParseArray(tokens) {
             tokens := SubArr(tokens, 2)
         }
     }
+
+    throw Error('Expected end-of-array')
 }
 
 /**
@@ -254,6 +260,10 @@ ParseObject(tokens) {
         json_value := foo[1]
         tokens := foo[2]
 
+        if (tokens.length == 0) {
+            break
+        }
+
         json_object[json_key] := json_value
 
         token := tokens[1]
@@ -267,6 +277,8 @@ ParseObject(tokens) {
 
         tokens := SubArr(tokens, 2)
     }
+
+    throw Error('Expected end-of-object')
 }
 
 /**
