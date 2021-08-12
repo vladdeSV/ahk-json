@@ -57,7 +57,7 @@ Lex(data) {
     
         for (character in StrSplit(str)) {
             if (character == '"' && !isEscaped) {
-                return ['"' . jsonString . '"', SubStr(str, StrLen(jsonString) + 2)]
+                return [jsonString, SubStr(str, StrLen(jsonString) + 2)]
             }
     
             if (character == '\' && !isEscaped) {
@@ -111,6 +111,12 @@ Lex(data) {
     
         if (StrLen(jsonNumber) == 0) {
             return [None, str]
+        }
+        
+        if (InStr(jsonNumber, '.') || InStr(jsonNumber, 'e-')) {
+            jsonNumber := Float(jsonNumber)
+        } else {
+            jsonNumber := Integer(jsonNumber)
         }
     
         return [jsonNumber, rest]
@@ -314,15 +320,11 @@ ParseTokenKind(token) {
         case 'false':
             return BOOLEAN
         default:
-            if (RegExMatch(token, '".*"')) {
-                return STRING_
-            }
-            
-            if (RegExMatch(token, '-?\d+(\.\d+)?([+-]?e\d+)?')) {
+            if (Type(token) == 'Integer' || Type(token) == 'Float') {
                 return NUMBER_
             }
 
-            throw Error('Unknown token `'' token '`'')
+            return STRING_
     }
 }
 
