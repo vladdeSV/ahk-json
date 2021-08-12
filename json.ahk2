@@ -163,12 +163,15 @@ Lex(data) {
             continue
         }
         
-        throw Error('Unexpected character: ' SubStr(data, 1, 1), -2)
+        throw Error('Unexpected character: ' SubStr(data, 1, 1), -3)
     }
 
     return tokens
 }
 
+/**
+ * @return Array
+ */
 SubArr(arr, from, length := 0) {
     ret := arr.Clone()
     ret.RemoveAt(1, from - 1)
