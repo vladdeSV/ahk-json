@@ -7,7 +7,8 @@ class JSON {
      * @return Map|Array
      */
     static Parse(data) {
-        json := Map()
+        tokens := Lex(data)
+        json := Parse(tokens)[1]
 
         return json
     }
