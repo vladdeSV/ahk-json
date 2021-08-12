@@ -45,7 +45,7 @@ class LexerData {
  * @see https://notes.eatonphil.com/writing-a-simple-json-parser.html
  * @return Array JSON tokens
  */
-Lexer(data) {
+Lex(data) {
     ; placeholder value when lexing part does not match
     static None := {}
 
