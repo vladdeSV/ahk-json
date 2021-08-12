@@ -321,3 +321,16 @@ ParseTokenKind(token) {
             throw Error('Unknown token `'' token '`'')
     }
 }
+
+DebugPrintArray(arr) {
+    output := ''
+    for (i, part in arr) {
+        if (i !== 1) {
+            output := output ' '
+        }
+
+        output := output String(part)
+    }
+
+    return output
+}
