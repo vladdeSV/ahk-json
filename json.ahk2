@@ -206,7 +206,7 @@ ParseArray(tokens) {
         if (tokenKind == END_ARRAY) {
             return [json_array, SubArr(tokens, 2)]
         } else if (tokenKind !== COMMA) {
-            throw Error('Expected comma after value in array')
+            throw Error('Expected comma after value in array', -3)
         } else {
             tokens := SubArr(tokens, 2)
         }
@@ -221,23 +221,23 @@ ParseObject(tokens) {
 
     token := tokens[1]
     tokenKind := ParseTokenKind(token)
-    
-    if (token == END_OBJECT) {
+
+    if (tokenKind == END_OBJECT) {
         return [json_object, SubArr(tokens, 2)]
     }
 
     while (true) {
         json_key := tokens[1]
-        tokenKind := ParseTokenKind(token)
+        tokenKind := ParseTokenKind(json_key)
 
         if (tokenKind == STRING_) {
             tokens := SubArr(tokens, 2)
         } else {
-            throw Error('Expected string key, got ' tokenKind)
+            throw Error('Expected string key, got ' tokenKind, -3)
         }
 
-        if (ParseTokenKind(tokens[0]) !== COLON) {
-            throw Error('Expected colon after key in object, got ' tokenKind)
+        if (ParseTokenKind(tokens[1]) !== COLON) {
+            throw Error('Expected colon after key in object, got ' tokenKind, -3)
         }
 
         foo := Parse(SubArr(tokens, 2))
@@ -246,7 +246,7 @@ ParseObject(tokens) {
 
         json_object[json_key] := json_value
 
-        token := tokens[0]
+        token := tokens[1]
         tokenKind := ParseTokenKind(token)
 
         if (tokenKind == END_OBJECT) {
