@@ -168,3 +168,14 @@ Lex(data) {
 
     return tokens
 }
+
+SubArr(arr, from, length := 0) {
+    ret := arr.Clone()
+    ret.RemoveAt(1, from - 1)
+
+    if (length > 0) {
+        ret.RemoveAt(length + 1, ret.length - length)
+    }
+    
+    return ret
+}
