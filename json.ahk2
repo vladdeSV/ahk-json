@@ -34,13 +34,6 @@ class JSON {
     }
 }
 
-class LexerData {
-    __New(data, continuation) {
-        this.data := data
-        this.continuation := continuation
-    }
-}
-
 /**
  * @see https://notes.eatonphil.com/writing-a-simple-json-parser.html
  * @return Array JSON tokens
@@ -53,7 +46,7 @@ Lex(data) {
         jsonString := ''
     
         if (SubStr(str, 1, 1) != '"') {
-            return LexerData(None, str)
+            return [None, str]
         }
         ; we are now inside a string. continue until we hit a " that is not escaped
     
@@ -63,7 +56,7 @@ Lex(data) {
     
         for (character in StrSplit(str)) {
             if (character == '"' && !isEscaped) {
-                return LexerData('"' . jsonString . '"', SubStr(str, StrLen(jsonString) + 2))
+                return ['"' . jsonString . '"', SubStr(str, StrLen(jsonString) + 2)]
             }
     
             if (character == '\' && !isEscaped) {
@@ -81,23 +74,23 @@ Lex(data) {
 
     LexBoolean(str) {
         if (SubStr(str, 1, 4) == 'true') {
-            return LexerData('true', SubStr(str, 5))
+            return ['true', SubStr(str, 5)]
         }
     
         
         if (SubStr(str, 1, 5) == 'false') {
-            return LexerData('false', SubStr(str, 6))
+            return ['false', SubStr(str, 6)]
         }
     
-        return LexerData(None, str)
+        return [None, str]
     }
 
     LexNull(str) {
         if (SubStr(str, 1, 4) == 'null') {
-            return LexerData('null', SubStr(str, 5))
+            return ['null', SubStr(str, 5)]
         }
 
-        return LexerData(None, str)
+        return [None, str]
     }
 
     LexNumber(str) {
@@ -116,10 +109,10 @@ Lex(data) {
         rest := SubStr(str, StrLen(jsonNumber) + 1)
     
         if (StrLen(jsonNumber) == 0) {
-            return LexerData(None, str)
+            return [None, str]
         }
     
-        return LexerData(jsonNumber, rest)
+        return [jsonNumber, rest]
     }
     
     tokens := []
@@ -127,33 +120,33 @@ Lex(data) {
     while (StrLen(data)) {
         ; is a string
         jsonString := LexString(data)
-        if (jsonString.data != None) {
-            tokens.Push(jsonString.data)
-            data := jsonString.continuation
+        if (jsonString[1] != None) {
+            tokens.Push(jsonString[1])
+            data := jsonString[2]
             continue
         }
 
         ; is a boolean
         jsonBoolean := LexBoolean(data)
-        if (jsonBoolean.data != None) {
-            tokens.Push(jsonBoolean.data)
-            data := jsonBoolean.continuation
+        if (jsonBoolean[1] != None) {
+            tokens.Push(jsonBoolean[1])
+            data := jsonBoolean[2]
             continue
         }
 
         ; is null
         jsonNull := LexNull(data)
-        if (jsonNull.data != None) {
-            tokens.Push(jsonNull.data)
-            data := jsonNull.continuation
+        if (jsonNull[1] != None) {
+            tokens.Push(jsonNull[1])
+            data := jsonNull[2]
             continue
         }
 
         ; is number
         jsonNumber := LexNumber(data)
-        if (jsonNumber.data != None) {
-            tokens.Push(jsonNumber.data)
-            data := jsonNumber.continuation
+        if (jsonNumber[1] != None) {
+            tokens.Push(jsonNumber[1])
+            data := jsonNumber[2]
             continue
         }
 
