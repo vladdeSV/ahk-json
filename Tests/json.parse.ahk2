@@ -25,6 +25,6 @@ a := JSON.Parse('[]')
 b := JSON.Parse('   [    ]       ')
 AssertEquals(a, b, 'Parse empty array, whitespace does not modify behaviour')
 
-a := JSON.Parse('[[[[[]]]]')
+a := JSON.Parse('[[[[[]]]]]')
 b := Array(Array(Array(Array(Array()))))
 AssertEquals(a, b, 'Parse nested arrays')
