@@ -87,7 +87,7 @@ Lex(data) {
 
     LexNull(str) {
         if (SubStr(str, 1, 4) == 'null') {
-            return ['null', SubStr(str, 5)]
+            return [JSON.Null, SubStr(str, 5)]
         }
 
         return [None, str]
