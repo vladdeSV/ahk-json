@@ -340,15 +340,49 @@ ParseTokenKind(token) {
     }
 }
 
-DebugPrintArray(arr) {
-    output := ''
-    for (i, part in arr) {
-        if (i !== 1) {
-            output := output ' '
+DebugPrint(data) {
+
+    DebugPrintArray(arr) {
+        output := ''
+        for (index, value in arr) {
+            if (index !== 1) {
+                output := output ''
+            }
+
+            output := output DebugPrintRec(value)
         }
 
-        output := output String(part)
+        return '[' output ']'
     }
 
-    return output
+    DebugPrintMap(obj) {
+        output := ''
+
+        first := true
+        for (key, value in obj) {
+            if (!first) {
+                output := output ', '
+            }
+
+            first := false
+
+            output := output key ': ' DebugPrintRec(value)
+        }
+
+        return '{' output '}'
+    }
+
+    DebugPrintRec(s) {
+        if (Type(s) == 'Array') {
+            s := DebugPrintArray(s)
+        }
+
+        if (Type(s) == 'Map') {
+            s := DebugPrintMap(s)
+        }
+
+        return s
+    }
+
+    return DebugPrintRec(data)
 }
