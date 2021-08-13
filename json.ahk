@@ -36,11 +36,12 @@ class JSON {
 
     /**
      * Contains internal logic for parsing and printing JSON
+     *
+     * @see https://notes.eatonphil.com/writing-a-simple-json-parser.html
      */
     class Internal {
         
         /**
-        * @see https://notes.eatonphil.com/writing-a-simple-json-parser.html
         * @return Array JSON tokens
         */
         static Lex(data) {
