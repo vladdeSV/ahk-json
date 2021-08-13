@@ -354,7 +354,6 @@ class JSON {
 }
 
 DebugPrint(data) {
-
     DebugPrintArray(arr) {
         output := ''
         for (index, value in arr) {
@@ -374,18 +373,31 @@ DebugPrint(data) {
         first := true
         for (key, value in obj) {
             if (!first) {
-                output := output ', '
+                output := output ','
             }
 
             first := false
 
-            output := output key ': ' DebugPrintRec(value)
+            output := output '"' key '"' ':' DebugPrintRec(value)
         }
 
         return '{' output '}'
     }
 
     DebugPrintRec(s) {
+        
+        if (Type(s) == 'String') {
+            s := '"' s '"'
+        }
+
+        if (Type(s) == 'Float') {
+            s := Round(s, 6)
+
+            while (StrLen(s) > 1 && SubStr(s, StrLen(s), 1) == '0') {
+                s := SubStr(s, 1, StrLen(s) - 1)
+            }
+        }
+
         if (Type(s) == 'Array') {
             s := DebugPrintArray(s)
         }
