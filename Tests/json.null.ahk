@@ -1,5 +1,5 @@
-#Include "..\json.ahk2"
-#Include "simpleunit.ahk2"
+#Include "..\json.ahk"
+#Include "simpleunit.ahk"
 
 ; test custon null implementation
 
