@@ -398,7 +398,7 @@ class JSON {
                 }
         
                 if (Type(s) == 'Float') {
-                    s := Round(s, 6)
+                    s := Round(s, 15)
         
                     while (StrLen(s) > 1 && SubStr(s, StrLen(s), 1) == '0') {
                         s := SubStr(s, 1, StrLen(s) - 1)
