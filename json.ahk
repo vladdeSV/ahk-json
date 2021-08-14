@@ -19,7 +19,9 @@ class JSON {
      * @return string
      */
     static Stringify(variable) {
-        return ''
+        json := this.Internal.Format(variable)
+
+        return json
     }
 
     /**
