@@ -351,64 +351,70 @@ class JSON {
         
             return ParseRecursive(tokens)[1]
         }
-    }
-}
 
-DebugPrint(data) {
-    DebugPrintArray(arr) {
-        output := ''
-        for (index, value in arr) {
-            if (index !== 1) {
-                output := output ''
-            }
+        /**
+         * @param any Any
+         *
+         * @return string
+         */
+        static Format(any_) {
 
-            output := output DebugPrintRec(value)
-        }
-
-        return '[' output ']'
-    }
-
-    DebugPrintMap(obj) {
-        output := ''
-
-        first := true
-        for (key, value in obj) {
-            if (!first) {
-                output := output ','
-            }
-
-            first := false
-
-            output := output '"' key '"' ':' DebugPrintRec(value)
-        }
-
-        return '{' output '}'
-    }
-
-    DebugPrintRec(s) {
+            FormatArray(arr) {
+                output := ''
+                for (index, value in arr) {
+                    if (index !== 1) {
+                        output := output ''
+                    }
         
-        if (Type(s) == 'String') {
-            s := '"' s '"'
-        }
-
-        if (Type(s) == 'Float') {
-            s := Round(s, 6)
-
-            while (StrLen(s) > 1 && SubStr(s, StrLen(s), 1) == '0') {
-                s := SubStr(s, 1, StrLen(s) - 1)
+                    output := output FormatRec(value)
+                }
+        
+                return '[' output ']'
             }
+        
+            FormatMap(obj) {
+                output := ''
+        
+                first := true
+                for (key, value in obj) {
+                    if (!first) {
+                        output := output ','
+                    }
+        
+                    first := false 
+        
+                    output := output '"' key '"' ':' FormatRec(value)
+                }
+        
+                return '{' output '}'
+            }
+        
+            FormatRec(s) {
+                
+                if (Type(s) == 'String') {
+                    s := '"' s '"'
+                }
+        
+                if (Type(s) == 'Float') {
+                    s := Round(s, 6)
+        
+                    while (StrLen(s) > 1 && SubStr(s, StrLen(s), 1) == '0') {
+                        s := SubStr(s, 1, StrLen(s) - 1)
+                    }
+                }
+        
+                if (Type(s) == 'Array') {
+                    s := FormatArray(s)
+                }
+        
+                if (Type(s) == 'Map') {
+                    s := FormatMap(s)
+                }
+        
+                return s
+            }
+        
+            return FormatRec(any_)
         }
-
-        if (Type(s) == 'Array') {
-            s := DebugPrintArray(s)
-        }
-
-        if (Type(s) == 'Map') {
-            s := DebugPrintMap(s)
-        }
-
-        return s
     }
-
-    return DebugPrintRec(data)
 }
