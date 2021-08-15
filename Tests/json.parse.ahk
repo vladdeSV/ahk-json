@@ -29,6 +29,10 @@ a := JSON.Parse('[[[[[]]]]]')
 b := Array(Array(Array(Array(Array()))))
 AssertEquals(a, b, 'Parse nested arrays')
 
+a := JSON.Stringify(Map('a', 'foo', 'b', 42, 'c', 13.37, 'd': 10))
+b := '{"a":"foo","b":42,"c":13.37}'
+AssertEquals(a, b, '')
+
 temp_obj := JSON.Parse('{"a": "foo", "b": 42, "c": 13.37}')
 temp_str := JSON.Stringify(temp_obj)
 temp_obj2 := JSON.Parse(temp_str)
