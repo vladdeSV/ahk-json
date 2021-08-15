@@ -38,6 +38,6 @@ AssertEquals(a, b, context := '') {
                 throw Error('AssertEquals for type `'' . t . '`' not yet supported')
         }
     } catch Error as e {
-        throw Error(e.Message, -2, e.Extra)
+        throw Error("Failed assertion", -2, context)
     }
 }
