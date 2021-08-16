@@ -1,6 +1,14 @@
 #Include "..\json.ahk"
 #Include "simpleunit.ahk"
 
+
+; test custon null implementation
+Assert(JSON.Null == JSON.Null, 'Strict compare (``==``) of null')
+Assert(JSON.Null = JSON.Null, 'Compare (``=``) of null')
+Assert(JSON.Null != {}, 'Comparing with newly instanciated object fails')
+
+
+; test parser
 a := JSON.Parse('{}')
 b := Map()
 AssertEquals(a, b, 'Parse empty JSON object')
@@ -29,6 +37,8 @@ a := JSON.Parse('[[[[[]]]]]')
 b := Array(Array(Array(Array(Array()))))
 AssertEquals(a, b, 'Parse nested arrays')
 
+
+; test stringify
 a := JSON.Stringify(Map('a', 'foo', 'b', 42, 'c', 13.37, 'd': 10))
 b := '{"a":"foo","b":42,"c":13.37}'
 AssertEquals(a, b, '')
