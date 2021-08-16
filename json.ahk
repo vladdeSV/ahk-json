@@ -165,7 +165,7 @@ class JSON {
                 }
 
                 ; is whitespace
-                if (InStr(' `t`n', SubStr(data, 1, 1))) {
+                if (InStr(' `t`n`r', SubStr(data, 1, 1))) {
                     data := SubStr(data, 2)
                     continue
                 }
