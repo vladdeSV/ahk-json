@@ -39,7 +39,7 @@ AssertEquals(a, b, 'Parse nested arrays')
 
 
 ; test stringify
-a := JSON.Stringify(Map('a', 'foo', 'b', 42, 'c', 13.37, 'd': 10))
+a := JSON.Stringify(Map('a', 'foo', 'b', 42, 'c', 13.37, 'd', 10))
 b := '{"a":"foo","b":42,"c":13.37}'
 AssertEquals(a, b, '')
 
