@@ -1,4 +1,4 @@
-#Requires AutoHotkey v2.0-a134
+#Requires AutoHotkey v2.0-beta.1
 
 class JSON {
     /**
