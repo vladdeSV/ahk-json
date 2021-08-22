@@ -25,6 +25,24 @@ a := JSON.Parse('[]')
 b := Array()
 AssertEquals(a, b, 'Parse empty array')
 
+a := JSON.Parse('null')
+b := JSON.Null
+AssertEquals(a, b, 'Parse only null')
+
+a := JSON.Parse('[null, null, null]')
+b := Array(JSON.Null, JSON.Null, JSON.Null)
+AssertEquals(a, b, 'Parse null in array')
+
+a := JSON.Parse('{"foo": null, "bar": {"a": null, "b": null}}')
+b := Map(
+    'foo', JSON.Null,
+    'bar', Map(
+        'a', JSON.Null,
+        'b', JSON.Null
+    )
+)
+AssertEquals(a, b, 'Parse null in nested object')
+
 a := JSON.Parse('["foo", 42, 13.37]')
 b := Array('foo', 42, 13.37)
 AssertEquals(a, b, 'Parse simple array with strings, integers, and floats')
@@ -43,7 +61,7 @@ a := JSON.Stringify(Map('a', 'foo', 'b', 42, 'c', 13.37, 'd', 10))
 b := '{"a":"foo","b":42,"c":13.37}'
 AssertEquals(a, b, '')
 
-temp_obj := JSON.Parse('{"a": "foo", "b": 42, "c": 13.37}')
+temp_obj := JSON.Parse('{"a": "foo", "b": null, "c": 13.37, "d": {"a": [1, 2, 3]}}')
 temp_str := JSON.Stringify(temp_obj)
 temp_obj2 := JSON.Parse(temp_str)
 temp_str2 := JSON.Stringify(temp_obj2)
