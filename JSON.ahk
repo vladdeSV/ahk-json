@@ -56,23 +56,46 @@ class JSON {
                 if (SubStr(str, 1, 1) != '"') {
                     return [None, str]
                 }
+
                 ; we are now inside a string. continue until we hit a " that is not escaped
 
                 ; remove first character (the quote)
-                str := SubStr(str, 2)
-                isEscaped := false
+                MunchString(&str, 1)
 
-                for (character in StrSplit(str)) {
-                    if (character == '"' && !isEscaped) {
-                        return [jsonString, SubStr(str, StrLen(jsonString) + 2)]
+                while ((character := MunchString(&str))) != '' {
+                    if (character == '\') {
+                        c := MunchString(&str)
+                        switch (c) {
+                            case '\':
+                            case '/':
+                            case '"':
+                                character := c
+                            case 'b':
+                                character := Ord(8) ; backspace
+                            case 'f':
+                                character := Ord(12) ; formfeed
+                            case 'n':
+                                character := '`n'
+                            case 't':
+                                character := '`t'
+                            case 'r':
+                                character := '`r'
+                            case 'u':
+                                ; we got ourselves a big one
+
+                                foo := MunchString(&str, 4)
+                                if(StrLen(foo) != 4) {
+                                    throw Error('Invalid \u sequence `'' foo)
+                                }
+                                ; todo check all characters are hex
+
+                                character := '\u' foo
+                            default:
+                                throw Error('Unrecognized escaped character ' c)
+                        }
+                    } else if (character == '"') {
+                        return [jsonString, str]
                     }
-
-                    if (character == '\' && !isEscaped) {
-                        isEscaped := true
-                        continue
-                    }
-
-                    isEscaped := false
 
                     jsonString := jsonString . character
                 }
@@ -425,4 +448,11 @@ class JSON {
             return FormatRec(any_)
         }
     }
+}
+
+MunchString(&str, length := 1) {
+    character := SubStr(str, 1, length)
+    str := SubStr(str, length + 1)
+
+    return character
 }
