@@ -215,12 +215,14 @@ class JSON {
                         return COLON
                     case ',':
                         return COMMA
-                    case 'null':
-                        return NULL
                     case 'true':
                     case 'false':
                         return BOOLEAN
                     default:
+                        if (token == JSON.Null) {
+                            return NULL
+                        }
+
                         if (Type(token) == 'Integer' || Type(token) == 'Float') {
                             return NUMBER_
                         }
@@ -411,6 +413,10 @@ class JSON {
         
                 if (Type(s) == 'Map') {
                     s := FormatMap(s)
+                }
+
+                if (s == JSON.null) {
+                    s := 'null'
                 }
         
                 return s
