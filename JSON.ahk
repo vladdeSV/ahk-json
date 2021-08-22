@@ -420,8 +420,9 @@ class JSON {
 
                 if (Type(s) == 'String') {
 
-                    s := StrReplace(s, '\', '\\')
-                    s := StrReplace(s, '"', '\"')
+                    regex := '(\\(?!u)|")'
+                    replace := '\$1'
+                    s := RegExReplace(s, regex, replace)
 
                     s := '"' s '"'
                 }

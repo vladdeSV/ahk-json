@@ -73,6 +73,6 @@ temp_str2 := JSON.Stringify(temp_obj2)
 AssertEquals(temp_obj, temp_obj2)
 AssertEquals(temp_str, temp_str2)
 
-a := JSON.Stringify(['\', '"'])
-b := '["\\","\""]'
+a := JSON.Stringify(['\', '"', '\u0000'])
+b := '["\\","\"","\u0000"]'
 AssertEquals(a, b, 'Stringify escapes quotation marks (") and blackslash (\, reverse solidus)')
