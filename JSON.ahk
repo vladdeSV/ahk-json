@@ -104,7 +104,7 @@ class JSON {
             LexNumber(str) {
                 jsonNumber := ''
 
-                numbers := '0123456789-eE.'
+                numbers := '0123456789-+eE.'
 
                 for (character in StrSplit(str)){
                     if (!InStr(numbers, character)) {
@@ -120,7 +120,7 @@ class JSON {
                     return [None, str]
                 }
 
-                if (InStr(jsonNumber, '.') || InStr(jsonNumber, 'e-')) {
+                if (InStr(jsonNumber, '.') || InStr(jsonNumber, 'e')) {
                     jsonNumber := Float(jsonNumber)
                 } else {
                     jsonNumber := Integer(jsonNumber)
