@@ -419,6 +419,11 @@ class JSON {
             FormatRec(s) {
 
                 if (Type(s) == 'String') {
+
+                    if (InStr('"\', s)) {
+                        s := '\' s
+                    }
+
                     s := '"' s '"'
                 }
 
