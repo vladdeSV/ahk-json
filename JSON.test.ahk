@@ -58,7 +58,7 @@ AssertEquals(a, b, 'Parse nested arrays')
 
 ; test stringify
 a := JSON.Stringify(Map('a', 'foo', 'b', 42, 'c', 13.37, 'd', 10))
-b := '{"a":"foo","b":42,"c":13.37}'
+b := '{"a":"foo","b":42,"c":13.37,"d":10}'
 AssertEquals(a, b, '')
 
 temp_obj := JSON.Parse('{"a": "foo", "b": null, "c": 13.37, "d": {"a": [1, 2, 3]}}')
