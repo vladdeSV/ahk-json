@@ -1,3 +1,5 @@
+🛑 Unsuitable for production until v1.0 is released.
+
 # ahk-json
 [![ahk version](https://img.shields.io/badge/AHK-2.0--beta.1-428B42)]()
 [![json rfc](https://img.shields.io/badge/RFC-8259-white)](https://datatracker.ietf.org/doc/html/rfc8259)
