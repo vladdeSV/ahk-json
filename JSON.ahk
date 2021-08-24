@@ -63,12 +63,19 @@ class JSON {
                 MunchString(&str, 1)
 
                 while ((character := MunchString(&str))) != '' {
+
+                    
+                    ; check if the character code point is a "control character", with exception to whitespace characters
+                    ; "[…] characters that MUST be escaped: […] the control characters (U+0000 through U+001F)" — RFC 8259 (https://datatracker.ietf.org/doc/html/rfc8259)
+                    characterCodePoint := Ord(character)
+                    if (characterCodePoint < 0x20) {
+                        throw Error('Found un-escaped control character')
+                    }
+                    
                     if (character == '\') {
                         c := MunchString(&str)
                         switch (c) {
-                            case '\':
-                            case '/':
-                            case '"':
+                            case '\', '/', '"':
                                 character := c
                             case 'b':
                                 character := Ord(8) ; backspace
@@ -83,13 +90,12 @@ class JSON {
                             case 'u':
                                 ; we got ourselves a big one
 
-                                foo := MunchString(&str, 4)
-                                if(StrLen(foo) != 4) {
-                                    throw Error('Invalid \u sequence `'' foo)
+                                hex := MunchString(&str, 4)
+                                if (RegExMatch(hex, '^[0-9a-fA-F]{4}$') == 0) {
+                                    throw Error('Invalid \u sequence `'\u' hex '`'')
                                 }
-                                ; todo check all characters are hex
 
-                                character := '\u' foo
+                                character := '\u' hex
                             default:
                                 throw Error('Unrecognized escaped character ' c)
                         }
@@ -137,11 +143,11 @@ class JSON {
                     jsonNumber := jsonNumber character
                 }
 
-                rest := SubStr(str, StrLen(jsonNumber) + 1)
-
-                if (StrLen(jsonNumber) == 0) {
+                if (RegExMatch(jsonNumber, '^(-?(?:0|[1-9]\d*))(\.\d+)?([eE][+-]?\d+)?$') == 0) {
                     return [None, str]
                 }
+
+                rest := SubStr(str, StrLen(jsonNumber) + 1)
 
                 if (InStr(jsonNumber, '.') || InStr(jsonNumber, 'e')) {
                     jsonNumber := Float(jsonNumber)
