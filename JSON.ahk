@@ -419,7 +419,9 @@ class JSON {
 
             FormatRec(s) {
 
-                if (Type(s) == 'String') {
+                if(s == 'true' || s == 'false') {
+
+                } else if (Type(s) == 'String') {
 
                     regex := '(\\(?!u)|")'
                     replace := '\$1'
