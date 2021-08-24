@@ -238,8 +238,7 @@ class JSON {
                         return COLON
                     case ',':
                         return COMMA
-                    case 'true':
-                    case 'false':
+                    case 'true', 'false':
                         return BOOLEAN
                     default:
                         if (token == JSON.Null) {
