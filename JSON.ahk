@@ -377,7 +377,17 @@ class JSON {
                 }
             }
 
-            return ParseRecursive(tokens)[1]
+            if (tokens.length == 0) {
+                throw Error('Invalid JSON. No data provided.')
+            }
+
+            result := ParseRecursive(tokens)
+
+            if (result[2].length !== 0) {
+                throw Error('Invalid JSON. Expected one top level value, found multiple tokens.')
+            }
+
+            return result[1]
         }
 
         /**
