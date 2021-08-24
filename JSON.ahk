@@ -370,8 +370,10 @@ class JSON {
                         return ParseArray(SubArr(tokens, 2))
                     case BEGIN_OBJECT:
                         return ParseObject(SubArr(tokens, 2))
-                    default:
+                    case BOOLEAN, NUMBER_, STRING_, NULL:
                         return [token, SubArr(tokens, 2)]
+                    default:
+                        throw Error('Unexpected token ' token)
                 }
             }
 
