@@ -31,7 +31,7 @@ class JSON {
      */
     static Null {
         get {
-            static null := {}
+            static null := {base: {__class: 'null'}}
             return null
         }
     }
