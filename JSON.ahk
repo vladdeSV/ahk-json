@@ -187,20 +187,22 @@ class JSON {
                     continue
                 }
 
-                ; is whitespace
-                if (InStr(' `t`n`r', SubStr(data, 1, 1))) {
-                    data := SubStr(data, 2)
-                    continue
+                ; check for valid characters. not using `InStr(…)` because it does not handle null-bytes (which is invalid json)
+                firstCharacter := SubStr(data, 1, 1)
+                switch firstCharacter {
+                    ; is whitespace
+                    case ' ', '`t', '`n', '`r':
+                        data := SubStr(data, 2)
+                        continue
+                    ; is json syntax
+                    case '{', '}', '(', ')', '[', ']', ':', ',':
+                        tokens.Push(firstCharacter)
+                        data := SubStr(data, 2)
+                        continue
                 }
 
-                ; is json syntax characters
-                if (InStr('{}()[]:,', SubStr(data, 1, 1))) {
-                    tokens.Push(SubStr(data, 1, 1))
-                    data := SubStr(data, 2)
-                    continue
-                }
-
-                throw Error('Unexpected character: ' SubStr(data, 1, 1), -3)
+                ; is unexpected character
+                throw Error('Unexpected character: `'' firstCharacter '`' (' Ord(firstCharacter) ')', -3)
             }
 
             return tokens
