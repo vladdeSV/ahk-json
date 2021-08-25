@@ -34,4 +34,18 @@ loop files '.\Lib\JSONTestSuite\test_parsing\n_*.json' {
     throw Error('Parsed invalid file ' A_LoopFileName ' #' fileIndex, -2, data '`n' JSON.Stringify(out))
 }
 
-MsgBox('Done')
+MsgBox('Done. Ran ' fileIndex ' tests.`n`nWill run 2 long tests (my tests are slow)')
+
+for (path in ['n_structure_open_array_object.json', 'n_structure_100000_opening_arrays.json']) {
+    data := FileOpen('.\Lib\JSONTestSuite\test_parsing\' path, 'r').Read()
+    out := ''
+    try {
+        out := JSON.Parse(data)
+    } catch Error as e {
+        continue
+    }
+
+    throw Error('Parsed invalid file ' A_LoopFileName ' #' fileIndex, -2, data '`n' JSON.Stringify(out))
+}
+
+MsgBox('Done-done.')
