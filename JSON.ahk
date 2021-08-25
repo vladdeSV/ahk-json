@@ -229,8 +229,8 @@ class JSON {
             BOOLEAN := 'BOOLEAN'
 
             /**
-            * @return string
-            */
+             * @return string
+             */
             ParseTokenKind(token) {
                 switch token {
                     case '{':
@@ -261,8 +261,8 @@ class JSON {
             }
 
             /**
-            * @return Array
-            */
+             * @return Array
+             */
             SubArr(arr, from, length := 0) {
                 ret := arr.Clone()
                 ret.RemoveAt(1, from - 1)
@@ -275,8 +275,8 @@ class JSON {
             }
 
             /**
-            * @return [Array, Array]
-            */
+             * @return [Array, Array]
+             */
             ParseArray(tokens) {
                 json_array := []
 
@@ -314,8 +314,8 @@ class JSON {
             }
 
             /**
-            * @return [Map, Array]
-            */
+             * @return [Map, Array]
+             */
             ParseObject(tokens) {
                 json_object := Map()
 
@@ -366,8 +366,8 @@ class JSON {
             }
 
             /**
-            * @return [Any, Array]
-            */
+             * @return [Any, Array]
+             */
             ParseRecursive(tokens) {
                 token := tokens[1]
                 tokenKind := ParseTokenKind(token)
