@@ -276,7 +276,7 @@ class JSON {
             /**
              * @return [Array, Array]
              */
-            ParseArray(tokens) {
+            ParseArray(tokens, depth) {
                 json_array := []
 
                 token := tokens[1]
@@ -287,7 +287,7 @@ class JSON {
                 }
 
                 while (true) {
-                    foo := ParseRecursive(tokens)
+                    foo := ParseRecursive(tokens, depth)
                     json_ := foo[1]
                     tokens := foo[2]
 
@@ -315,7 +315,7 @@ class JSON {
             /**
              * @return [Map, Array]
              */
-            ParseObject(tokens) {
+            ParseObject(tokens, depth) {
                 json_object := Map()
 
                 token := tokens[1]
@@ -339,7 +339,7 @@ class JSON {
                         throw Error('Expected colon after key in object, got ' tokenKind, -3)
                     }
 
-                    foo := ParseRecursive(SubArr(tokens, 2))
+                    foo := ParseRecursive(SubArr(tokens, 2), depth)
                     json_value := foo[1]
                     tokens := foo[2]
 
@@ -367,15 +367,20 @@ class JSON {
             /**
              * @return [Any, Array]
              */
-            ParseRecursive(tokens) {
+            ParseRecursive(tokens, depth) {
+
+                if (depth > 128) {
+                    throw Error('Maximum recursion depth limit reached')
+                }
+
                 token := tokens[1]
                 tokenKind := ParseTokenKind(token)
 
                 switch (tokenKind) {
                     case BEGIN_ARRAY:
-                        return ParseArray(SubArr(tokens, 2))
+                        return ParseArray(SubArr(tokens, 2), depth + 1)
                     case BEGIN_OBJECT:
-                        return ParseObject(SubArr(tokens, 2))
+                        return ParseObject(SubArr(tokens, 2), depth + 1)
                     case BOOLEAN, NUMBER_, STRING_, NULL:
                         return [token, SubArr(tokens, 2)]
                     default:
@@ -387,7 +392,7 @@ class JSON {
                 throw Error('Invalid JSON. No data provided.')
             }
 
-            result := ParseRecursive(tokens)
+            result := ParseRecursive(tokens, 0)
 
             if (result[2].length !== 0) {
                 throw Error('Invalid JSON. Expected one top level value, found multiple tokens.')
