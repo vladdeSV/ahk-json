@@ -62,9 +62,8 @@ class JSON {
                 ; remove first character (the quote)
                 MunchString(&str, 1)
 
-                while ((character := MunchString(&str))) != '' {
+                while ((character := MunchString(&str)) != '') {
 
-                    
                     ; check if the character code point is a "control character"
                     ; "[…] characters that MUST be escaped: […] the control characters (U+0000 through U+001F)" — RFC 8259 (https://datatracker.ietf.org/doc/html/rfc8259)
                     characterCodePoint := Ord(character)
