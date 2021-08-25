@@ -130,29 +130,27 @@ class JSON {
             }
 
             LexNumber(str) {
+                numbers := '0123456789-+eE.'
                 jsonNumber := ''
 
-                numbers := '0123456789-+eE.'
-
-                mutableString := str
-
-                while ((character := MunchString(&mutableString)) !== '') {
-
-                    if (character == Chr(0)) {
-                        mutableString := character mutableString
+                while ((character := MunchString(&str)) !== '') {
+                    ; InStr does not work with null-bytes
+                    if (character == Chr(0) || !InStr(numbers, character)) {
+                        ; we munched a character that is not part of a number. put it back
+                        str := character str
                         break
                     }
 
-                    if (!InStr(numbers, character)) {
-                        mutableString := character mutableString
-                        break
-                    }
-
+                    ; append character to a possible json number (does not guarantee it's a valid json number)
                     jsonNumber := jsonNumber character
                 }
 
+                ; check if valid number
                 if (RegExMatch(jsonNumber, '^(-?(?:0|[1-9]\d*))(\.\d+)?([eE][+-]?\d+)?$') == 0) {
-                    return [None, str]
+                    ; we have munched some characters. return those characters with the rest of the string
+                    ; possibly we could optimize by not returning the rest of the string, as it's guaranteed to be invalid json
+                    ; not going to do that since i would call it pre-mature optimization
+                    return [None, jsonNumber str]
                 }
 
                 if (InStr(jsonNumber, '.') || InStr(jsonNumber, 'e')) {
@@ -161,7 +159,7 @@ class JSON {
                     jsonNumber := Integer(jsonNumber)
                 }
 
-                return [jsonNumber, mutableString]
+                return [jsonNumber, str]
             }
 
             tokens := []
