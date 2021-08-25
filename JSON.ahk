@@ -153,13 +153,7 @@ class JSON {
                     return [None, jsonNumber str]
                 }
 
-                if (InStr(jsonNumber, '.') || InStr(jsonNumber, 'e')) {
-                    jsonNumber := Float(jsonNumber)
-                } else {
-                    jsonNumber := Integer(jsonNumber)
-                }
-
-                return [jsonNumber, str]
+                return [Number(jsonNumber), str]
             }
 
             tokens := []
