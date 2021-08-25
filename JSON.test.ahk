@@ -8,16 +8,58 @@ Assert(JSON.Null = JSON.Null, 'Compare (``=``) of null')
 Assert(JSON.Null != {}, 'Comparing with newly instanciated object fails')
 
 ; test basic parsing
+
+/**
+ * explanation: [stringToBeParsed, expectedOutput, expectation][]
+ *
+ * @return [string, Any, string][]
+ */
 provider := [
-    ['{}', Map(), 'Parse empty JSON object'],
-    ['{"a": "foo", "b": 42, "c": 13.37}', Map('a', 'foo', 'b', 42, 'c', 13.37), 'Parse simple object with strings, integers, and floats'],
-    ['[]', Array(), ''],
-    ['null', JSON.Null, 'Parse only null'],
-    ['[null, null, null]', Array(JSON.Null, JSON.Null, JSON.Null), 'Parse null in array'],
-    ['{"foo": null, "bar": {"a": null, "b": null}}', Map('foo', JSON.Null, 'bar', Map('a', JSON.Null, 'b', JSON.Null)), 'Parse null in nested object'],
-    ['["foo", 42, 13.37]', Array('foo', 42, 13.37), 'Parse simple array with strings, integers, and floats'],
-    ['[[[[[]]]]]', Array(Array(Array(Array(Array())))), 'Parse nested arrays'],
-    ['"\\"', '\', 'Parse escaped reverse solidus in string'],
+    [
+        '{}',
+        Map(),
+        'Parse empty JSON object'
+    ],
+    [
+        '{"a": "foo", "b": 42, "c": 13.37}',
+        Map('a', 'foo', 'b', 42, 'c', 13.37),
+        'Parse simple object with strings, integers, and floats'
+    ],
+    [
+        '[]',
+        Array(),
+        ''
+    ],
+    [
+        'null',
+        JSON.Null,
+        'Parse only null'
+    ],
+    [
+        '[null, null, null]',
+        Array(JSON.Null, JSON.Null, JSON.Null),
+        'Parse null in array'
+    ],
+    [
+        '{"foo": null, "bar": {"a": null, "b": null}}',
+        Map('foo', JSON.Null, 'bar', Map('a', JSON.Null, 'b', JSON.Null)),
+        'Parse null in nested object'
+    ],
+    [
+        '["foo", 42, 13.37]',
+        Array('foo', 42, 13.37),
+        'Parse simple array with strings, integers, and floats'
+    ],
+    [
+        '[[[[[]]]]]',
+        Array(Array(Array(Array(Array())))),
+        'Parse nested arrays'
+    ],
+    [
+        '"\\"',
+        '\',
+        'Parse escaped reverse solidus in string'
+    ],
 ]
 
 for data in provider {
