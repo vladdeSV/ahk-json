@@ -134,8 +134,17 @@ class JSON {
 
                 numbers := '0123456789-+eE.'
 
-                for (character in StrSplit(str)){
+                mutableString := str
+
+                while ((character := MunchString(&mutableString)) !== '') {
+
+                    if (character == Chr(0)) {
+                        mutableString := character mutableString
+                        break
+                    }
+
                     if (!InStr(numbers, character)) {
+                        mutableString := character mutableString
                         break
                     }
 
@@ -146,15 +155,13 @@ class JSON {
                     return [None, str]
                 }
 
-                rest := SubStr(str, StrLen(jsonNumber) + 1)
-
                 if (InStr(jsonNumber, '.') || InStr(jsonNumber, 'e')) {
                     jsonNumber := Float(jsonNumber)
                 } else {
                     jsonNumber := Integer(jsonNumber)
                 }
 
-                return [jsonNumber, rest]
+                return [jsonNumber, mutableString]
             }
 
             tokens := []
