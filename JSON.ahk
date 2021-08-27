@@ -18,8 +18,8 @@ class JSON {
      * 
      * @return string
      */
-    static Stringify(variable) {
-        json := this.Internal.Format(variable)
+    static Stringify(variable, format_ := false) {
+        json := this.Internal.Format(variable, format_)
 
         return json
     }
@@ -414,39 +414,68 @@ class JSON {
          *
          * @return string
          */
-        static Format(any_) {
+        static Format(any_, format_) {
 
-            FormatArray(arr) {
+            Indent(level) {
+                out := ''
+                loop (level) {
+                    out := out '    '
+                }
+
+                return out
+            }
+
+            FormatArray(arr, format_, level) {
                 output := ''
                 for (index, value in arr) {
-                    if (index !== 1) {
-                        output := output ','
+
+                    if (format_) {
+                        output := output '`n' Indent(level + 1)
                     }
 
-                    output := output FormatRec(value)
+                    output := output FormatRec(value, format_, level + 1)
+
+                    if (index !== arr.length) {
+                        output := output ','
+                    }
+                }
+
+                if (output && format_) {
+                    output := output '`n' Indent(level)
                 }
 
                 return '[' output ']'
             }
 
-            FormatMap(obj) {
+            FormatMap(obj, format_, level) {
                 output := ''
 
-                first := true
+                i := 1
                 for (key, value in obj) {
-                    if (!first) {
+                    
+
+                    if (format_) {
+                        output := output '`n' Indent(level + 1)
+                    }
+                    
+
+                    output := output '"' key '"' ':' (format_ ? ' ' : '') FormatRec(value, format_, level + 1)
+
+                    if (i !== obj.count) {
                         output := output ','
                     }
 
-                    first := false 
+                    i++
+                }
 
-                    output := output '"' key '"' ':' FormatRec(value)
+                if (output && format_) {
+                    output := output '`n' Indent(level)
                 }
 
                 return '{' output '}'
             }
 
-            FormatRec(s) {
+            FormatRec(s, format_, level) {
 
                 if (Type(s) == 'String' && (s !== 'true' && s !== 'false')) {
 
@@ -466,11 +495,11 @@ class JSON {
                 }
 
                 if (Type(s) == 'Array') {
-                    s := FormatArray(s)
+                    s := FormatArray(s, format_, level)
                 }
 
                 if (Type(s) == 'Map') {
-                    s := FormatMap(s)
+                    s := FormatMap(s, format_, level)
                 }
 
                 if (s == JSON.null) {
@@ -480,7 +509,7 @@ class JSON {
                 return s
             }
 
-            return FormatRec(any_)
+            return FormatRec(any_, format_, 0)
         }
     }
 }
