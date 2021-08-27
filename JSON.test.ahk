@@ -10,8 +10,6 @@ Assert(JSON.Null != {}, 'Comparing with newly instanciated object fails')
 ; test basic parsing
 
 /**
- * explanation: [stringToBeParsed, expectedOutput, expectation][]
- *
  * @return [string, Any, string][]
  */
 provider := [
