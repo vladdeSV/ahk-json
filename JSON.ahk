@@ -47,6 +47,14 @@ class JSON {
         * @return Array JSON tokens
         */
         static Lex(data) {
+            
+            MunchString(&str, length := 1) {
+                character := SubStr(str, 1, length)
+                str := SubStr(str, length + 1)
+
+                return character
+            }
+
             ; placeholder value when lexing part does not match
             static None := {}
 
@@ -475,11 +483,4 @@ class JSON {
             return FormatRec(any_)
         }
     }
-}
-
-MunchString(&str, length := 1) {
-    character := SubStr(str, 1, length)
-    str := SubStr(str, length + 1)
-
-    return character
 }
