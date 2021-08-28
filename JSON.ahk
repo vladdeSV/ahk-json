@@ -1,6 +1,7 @@
 #Requires AutoHotkey v2.0-beta.1
 
 class JSON {
+
     /**
      * @param string data JSON data
      * 
@@ -47,7 +48,7 @@ class JSON {
         * @return Array JSON tokens
         */
         static Lex(data) {
-            
+
             MunchString(&str, length := 1) {
                 character := SubStr(str, 1, length)
                 str := SubStr(str, length + 1)
@@ -78,7 +79,7 @@ class JSON {
                     if (characterCodePoint < 0x20) {
                         throw Error('Found un-escaped control character')
                     }
-                    
+
                     if (character == '\') {
                         c := MunchString(&str)
                         switch (c) {
@@ -452,12 +453,10 @@ class JSON {
 
                 i := 1
                 for (key, value in obj) {
-                    
 
                     if (format_) {
                         output := output '`n' Indent(level + 1)
                     }
-                    
 
                     output := output '"' key '"' ':' (format_ ? ' ' : '') FormatRec(value, format_, level + 1)
 
