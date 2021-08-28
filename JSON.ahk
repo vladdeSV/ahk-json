@@ -15,6 +15,19 @@ class JSON {
     }
 
     /**
+     * @param Any data
+     *
+     * @return Any|Null
+     */
+    static TryParse(data) {
+        try {
+            return JSON.Parse(data)
+        } catch Error as e {
+            return JSON.Null
+        }
+    }
+
+    /**
      * @param Map|Array variable
      * 
      * @return string
