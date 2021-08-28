@@ -1,10 +1,10 @@
 🛑 Unsuitable for production until v1.0 is released.
 
 # ahk-json
-[![ahk version](https://img.shields.io/badge/AHK-2.0--beta.1-428B42)](https://www.autohotkey.com/download/2.0/)
-[![json rfc](https://img.shields.io/badge/RFC-8259-white)](https://datatracker.ietf.org/doc/html/rfc8259)
+[![ahk version](https://img.shields.io/badge/AHK-2.0--beta.1-428B42)][ahk2.0-beta.1]
+[![json rfc](https://img.shields.io/badge/RFC-8259-white)][rfc8259]
 
-Handle JSON in AutoHotkey.
+JSON handler for AutoHotkey, [RFC 8259][rfc8259] compliant.
 
 ## Example
 
@@ -30,3 +30,6 @@ output == '{"a":"foo","b":null,"c":13.37,"d":{"a":[1,2,3]}}'
 
 ## License
 MIT © [Vladimirs Nordholm](https://github.com/vladdeSV)
+
+[ahk2.0-beta.1]: https://www.autohotkey.com/download/2.0/
+[rfc8259]: https://datatracker.ietf.org/doc/html/rfc8259 "RFC 2859"
