@@ -5,7 +5,7 @@ class JSON {
     /**
      * @param string data JSON data
      * 
-     * @return Map|Array
+     * @return Map|Array|number|string|JSON.Null
      */
     static Parse(data) {
         tokens := this.Internal.Lex(data)
@@ -15,7 +15,7 @@ class JSON {
     }
 
     /**
-     * @param Map|Array variable
+     * @param Map|Array|number|string|JSON.Null variable
      * 
      * @return string
      */
