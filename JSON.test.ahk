@@ -91,6 +91,7 @@ temp_str2 := JSON.Stringify(temp_obj2)
 AssertEquals(temp_obj, temp_obj2)
 AssertEquals(temp_str, temp_str2)
 
+
 ; test stringify formatted and unformatted (pretty, unpretty)
 minifiedJsonString := '{"a":"foo","b":null,"c":13.37,"d":{"a":[1,2,3]}}'
 obj := JSON.Parse(minifiedJsonString)

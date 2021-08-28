@@ -96,8 +96,6 @@ class JSON {
                             case 'r':
                                 character := '`r'
                             case 'u':
-                                ; we got ourselves a big one
-
                                 hex := MunchString(&str, 4)
                                 if (RegExMatch(hex, '^[0-9a-fA-F]{4}$') == 0) {
                                     throw Error('Invalid \u sequence `'\u' hex '`'')
