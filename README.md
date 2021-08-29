@@ -26,6 +26,23 @@ Outputting JSON
 output := JSON.Stringify(data)
 output == '{"a":"foo","b":null,"c":13.37,"d":{"a":[1,2,3]}}'
 
+output := JSON.Stringify(data, true) ; pretty print
+output == '
+(
+{
+    "a": "foo",
+    "b": null,
+    "c": 13.37,
+    "d": {
+        "a": [
+            1,
+            2,
+            3
+        ]
+    }
+}
+)'
+
 ```
 
 ## License
