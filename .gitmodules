@@ -1,6 +1,0 @@
-[submodule "Lib/Saul"]
-	path = Lib/Saul
-	url = git@github.com:vladdeSV/ahk-saul.git
-[submodule "Lib/JSONTestSuite"]
-	path = Lib/JSONTestSuite
-	url = git@github.com:nst/JSONTestSuite.git
