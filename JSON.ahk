@@ -152,7 +152,7 @@ class JSON {
                     jsonNumber := jsonNumber character
                 }
 
-                ; check if valid number
+                ; ensure if valid number
                 if (RegExMatch(jsonNumber, '^(-?(?:0|[1-9]\d*))(\.\d+)?([eE][+-]?\d+)?$') == 0) {
                     ; we have munched some characters. return those characters with the rest of the string
                     ; possibly we could optimize by not returning the rest of the string, as it's guaranteed to be invalid json
