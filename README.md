@@ -4,7 +4,7 @@
 [![ahk version](https://img.shields.io/badge/AHK-2.0--beta.1-428B42)][ahk2.0-beta.1]
 [![json rfc](https://img.shields.io/badge/RFC-8259-white)][rfc8259]
 
-JSON handler for AutoHotkey, [RFC 8259][rfc8259] compliant.
+JSON handler for AutoHotkey, [RFC 8259][rfc8259] compliant, [tested][jsontest] rigorously.
 
 ## Example
 
@@ -50,3 +50,4 @@ MIT © [Vladimirs Nordholm](https://github.com/vladdeSV)
 
 [ahk2.0-beta.1]: https://www.autohotkey.com/download/2.0/
 [rfc8259]: https://datatracker.ietf.org/doc/html/rfc8259 "RFC 2859"
+[jsontest]: https://github.com/nst/JSONTestSuite "JSON Test Suite"
