@@ -1,4 +1,4 @@
-#Include 'JSON.ahk'
+#Include '..\JSON.ahk'
 
 fileIndex := 0
 
