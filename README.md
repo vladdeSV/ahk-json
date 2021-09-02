@@ -9,7 +9,7 @@ JSON handler for AutoHotkey, [RFC 8259][rfc8259] compliant, [tested][jsontest] r
 ## Example
 
 Parsing JSON
-```ahk
+```autoit
 input := '{"a": "foo", "b": null, "c": 13.37, "d": {"a": [1, 2, 3]}}'
 data := JSON.Parse(input)
 
@@ -21,7 +21,7 @@ data['d']['a'][3] == 3
 ```
 
 Outputting JSON
-```ahk
+```autoit
 ; using `data` from above example
 output := JSON.Stringify(data)
 output == '{"a":"foo","b":null,"c":13.37,"d":{"a":[1,2,3]}}'
