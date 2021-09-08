@@ -4,7 +4,7 @@
 [![ahk version](https://img.shields.io/badge/AHK-2.0--beta.1-428B42)][ahk2.0-beta.1]
 [![json rfc](https://img.shields.io/badge/RFC-8259-white)][rfc8259]
 
-JSON handler for AutoHotkey, [RFC 8259][rfc8259] compliant, [tested][jsontest] rigorously.
+JSON handler for AutoHotkey; [RFC 8259][rfc8259] compliant, [tested][jsontest] rigorously, zero-dependency.
 
 ## Example
 
